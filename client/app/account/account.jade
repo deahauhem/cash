@@ -1,0 +1,48 @@
+div(ng-include='"components/navbar/navbar.html"')
+
+.content(ng-app="cashApp")
+  .container(ng-controller="AccountCtrl")
+    .col-md-12
+      h1 Accounts
+    div(ng-repeat="account in accounts").col-md-12
+      .col-md-12.container-fluid
+        h2.col-md-10 {{account.bank}}
+        .col-md-4 {{account.name}}
+        .col-md-2
+          .btn-group(dropdown)
+            button.btn.btn-xs.btn-default.dropdown-toggle 
+              | Actions 
+              span.caret
+            ul.dropdown-menu
+              li
+                a(ng-click="edit(account)")
+                  i.fa.fa-edit 
+                  |  Edit
+              li
+                a(ng-click="deleteAccount(account)")
+                  i.fa.fa-remove
+                  |  Delete
+              li
+                a(ng-click="edit(account)")
+                  i.fa.fa-upload
+                  |  Upload
+    .col-md-12
+      button.btn.btn-sm.btn-default(type="submit",ng-click="create();",value="Create")
+        i.fa.fa-plus
+        |  Create a new account 
+
+
+script(type="text/ng-template",id="myModalContent.html")
+    .modal-header
+        h3.modal-title Edit element
+    .modal-body
+        form
+            .form-group
+                label(for="input_name") Account Name
+                input.form-control(type="text",id="name",ng-model="form.name")
+            .form-group
+                label(for="input_bank") Bank Name
+                input.form-control(type="text",id="input_bank",ng-model="form.bank")
+    .modal-footer
+        button.btn.btn-primary(ng-click="ok()") OK
+        button.btn.btn-warning(ng-click="cancel()") Cancel
