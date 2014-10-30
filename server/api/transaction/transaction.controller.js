@@ -54,6 +54,44 @@ exports.destroy = function(req, res) {
   });
 };
 
+exports.importNab = function(req, res) {
+  var csv = require('csv');
+  var through = require('through');
+  var moment = require('moment');
+  var busboy = require('connect-busboy');
+
+  var nabParser = function(record) {
+    if (record.length > 6) {
+      return {
+        amount: parseFloat(record[1]),
+        date: moment(record[0]),
+        description: record[5],
+        active: true
+      };
+    }
+  } 
+
+  req.busboy.on('file', 
+    function(fieldname, file, filename, encoding, mimetype) {
+      file
+      .pipe(csv.parse())
+      .pipe(csv.transform(nabParser))
+// FIXME: This doesn't seem to work
+      .pipe(through(
+        function(record) {
+          console.log(JSON.stringify(record));
+          Transaction.create(record, function(err, transaction) {
+            if(err) { return handleError(res, err); }
+          });
+        }
+      ));
+    }
+  );
+  req.pipe(req.busboy);
+  return res.json(201, {});
+}
+
+
 function handleError(res, err) {
   return res.send(500, err);
 }

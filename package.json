@@ -27,7 +27,8 @@
     "through": "^2.3.6",
     "csv": "^0.4.0",
     "stream-transform": "0.0.6",
-    "moment": "^2.8.3"
+    "moment": "^2.8.3",
+    "connect-busboy": "0.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

@@ -4,8 +4,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TransactionSchema = new Schema({
-  name: String,
-  info: String,
+  amount: Number,
+  date: Date,
+  description: String,
   active: Boolean
 });
 

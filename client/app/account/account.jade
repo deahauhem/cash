@@ -23,9 +23,13 @@ div(ng-include='"components/navbar/navbar.html"')
                   i.fa.fa-remove
                   |  Delete
               li
-                a(ng-click="edit(account)")
+                a(ng-click="upload(account)")
                   i.fa.fa-upload
                   |  Upload
+          form(action="/api/transaction/import",method="post")
+            input(type="file",name="file").btn.btn-default
+            input(type="submit").btn.btn-default
+
     .col-md-12
       button.btn.btn-sm.btn-default(type="submit",ng-click="create();",value="Create")
         i.fa.fa-plus
