@@ -26,7 +26,7 @@ div(ng-include='"components/navbar/navbar.html"')
                 a(ng-click="upload(account)")
                   i.fa.fa-upload
                   |  Upload
-          form(action="/api/transaction/import",method="post")
+          form(action="/api/transaction/import",enctype="multipart/form-data",method="post")
             input(type="file",name="file").btn.btn-default
             input(type="submit").btn.btn-default
 

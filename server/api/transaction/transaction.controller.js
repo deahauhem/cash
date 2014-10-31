@@ -58,6 +58,7 @@ exports.importNab = function(req, res) {
   var csv = require('csv');
   var through = require('through');
   var moment = require('moment');
+  var stream = require('stream');
   var busboy = require('connect-busboy');
 
   var nabParser = function(record) {
@@ -70,9 +71,21 @@ exports.importNab = function(req, res) {
       };
     }
   } 
+  var mongoTransactionWritableStream = new stream.Writable({objectMode: true});
+  mongoTransactionWritableStream._write = function(chunk, encoding, callback) {
+    Transaction.create(record, function(err, transaction) {
+      if(err) { 
+        callback(handleError(res, err)); 
+      }
+      console.log("added:" );
+      console.log(record);
+      callback(); 
+    });
+  }
 
   req.busboy.on('file', 
     function(fieldname, file, filename, encoding, mimetype) {
+// do some checking for file names and field names and the like
       file
       .pipe(csv.parse())
       .pipe(csv.transform(nabParser))
@@ -84,11 +97,12 @@ exports.importNab = function(req, res) {
             if(err) { return handleError(res, err); }
           });
         }
-      ));
+      ))
+      .pipe(mongoTransactionWritableStream);
     }
   );
   req.pipe(req.busboy);
-  return res.json(201, {});
+  res.redirect("/account");
 }
 
 
