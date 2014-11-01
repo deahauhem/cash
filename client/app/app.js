@@ -5,6 +5,7 @@ angular.module('cashApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
+  'angularFileUpload',
   'ui.bootstrap'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

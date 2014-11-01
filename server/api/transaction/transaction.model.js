@@ -7,6 +7,7 @@ var TransactionSchema = new Schema({
   amount: Number,
   date: Date,
   description: String,
+  account: Schema.Types.ObjectId,
   active: Boolean
 });
 

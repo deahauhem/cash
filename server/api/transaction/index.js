@@ -2,6 +2,7 @@
 
 var express = require('express');
 var controller = require('./transaction.controller');
+var importer = require('./transaction.importer');
 
 var router = express.Router();
 
@@ -12,6 +13,6 @@ router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
-router.post('/import', controller.importNab);
+router.post('/import', importer.importNab);
 
 module.exports = router;

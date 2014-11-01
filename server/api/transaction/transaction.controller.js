@@ -61,6 +61,9 @@ exports.importNab = function(req, res) {
   var stream = require('stream');
   var busboy = require('connect-busboy');
 
+  /* nabParser: need to write this for all different banks 
+   * Should break this out into a separate file as well
+   */
   var nabParser = function(record) {
     if (record.length > 6) {
       return {
@@ -71,14 +74,16 @@ exports.importNab = function(req, res) {
       };
     }
   } 
-  var mongoTransactionWritableStream = new stream.Writable({objectMode: true});
+  var mongoTransactionWritableStream = function() {
+    stream.Writable.call(this, {objectMode: true});
+  }
+  util.inherits(mongoTransactionWritableStream, stream.Writable);
+
   mongoTransactionWritableStream._write = function(chunk, encoding, callback) {
     Transaction.create(record, function(err, transaction) {
       if(err) { 
         callback(handleError(res, err)); 
       }
-      console.log("added:" );
-      console.log(record);
       callback(); 
     });
   }
@@ -89,15 +94,6 @@ exports.importNab = function(req, res) {
       file
       .pipe(csv.parse())
       .pipe(csv.transform(nabParser))
-// FIXME: This doesn't seem to work
-      .pipe(through(
-        function(record) {
-          console.log(JSON.stringify(record));
-          Transaction.create(record, function(err, transaction) {
-            if(err) { return handleError(res, err); }
-          });
-        }
-      ))
       .pipe(mongoTransactionWritableStream);
     }
   );

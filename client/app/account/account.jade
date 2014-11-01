@@ -4,14 +4,12 @@ div(ng-include='"components/navbar/navbar.html"')
   .container(ng-controller="AccountCtrl")
     .col-md-12
       h1 Accounts
-    div(ng-repeat="account in accounts").col-md-12
+    alert(ng-repeat="alert in alerts",type="{{alert.type}}",close="close($index)") {{alert.msg}} 
+    .col-md-12(ng-repeat="account in accounts")
       .col-md-12.container-fluid
-        h2.col-md-10 {{account.bank}}
-        .col-md-4 {{account.name}}
-        .col-md-2
+        .col-md-10
           .btn-group(dropdown)
             button.btn.btn-xs.btn-default.dropdown-toggle 
-              | Actions 
               span.caret
             ul.dropdown-menu
               li
@@ -26,27 +24,51 @@ div(ng-include='"components/navbar/navbar.html"')
                 a(ng-click="upload(account)")
                   i.fa.fa-upload
                   |  Upload
-          form(action="/api/transaction/import",enctype="multipart/form-data",method="post")
-            input(type="file",name="file").btn.btn-default
-            input(type="submit").btn.btn-default
+          strong  {{account.bank}}
+          |  {{account.name}}
 
     .col-md-12
       button.btn.btn-sm.btn-default(type="submit",ng-click="create();",value="Create")
         i.fa.fa-plus
         |  Create a new account 
 
+script(type="text/ng-template",id="Upload.html")
+  .modal-header
+    h3.modal-title Upload transactions
+  .modal-body
+    h4 hello
+    form(flow-init)
+      input(type="file",ng-file-select="onFileSelect($files)") 
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+    button.btn.btn-warning(ng-click="cancel()") Cancel
 
-script(type="text/ng-template",id="myModalContent.html")
+script(type="text/ng-template",id="createAccount.html")
     .modal-header
-        h3.modal-title Edit element
+      h3.modal-title Create account
     .modal-body
-        form
-            .form-group
-                label(for="input_name") Account Name
-                input.form-control(type="text",id="name",ng-model="form.name")
-            .form-group
-                label(for="input_bank") Bank Name
-                input.form-control(type="text",id="input_bank",ng-model="form.bank")
+      form
+        .form-group
+          label(for="input_name") Account Name
+          input.form-control(type="text",id="name",ng-model="form.name")
+        .form-group
+          label(for="input_bank") Bank Name
+          input.form-control(type="text",id="input_bank",ng-model="form.bank")
     .modal-footer
-        button.btn.btn-primary(ng-click="ok()") OK
-        button.btn.btn-warning(ng-click="cancel()") Cancel
+      button.btn.btn-primary(ng-click="ok()") OK
+      button.btn.btn-warning(ng-click="cancel()") Cancel
+
+script(type="text/ng-template",id="editAccount.html")
+    .modal-header
+      h3.modal-title Edit element
+    .modal-body
+      form
+        .form-group
+          label(for="input_name") Account Name
+          input.form-control(type="text",id="name",ng-model="form.name")
+        .form-group
+          label(for="input_bank") Bank Name
+          input.form-control(type="text",id="input_bank",ng-model="form.bank")
+    .modal-footer
+      button.btn.btn-primary(ng-click="ok()") OK
+      button.btn.btn-warning(ng-click="cancel()") Cancel
