@@ -44,31 +44,31 @@ script(type="text/ng-template",id="Upload.html")
     button.btn.btn-warning(ng-click="cancel()") Cancel
 
 script(type="text/ng-template",id="createAccount.html")
-    .modal-header
-      h3.modal-title Create account
-    .modal-body
-      form
-        .form-group
-          label(for="input_name") Account Name
-          input.form-control(type="text",id="name",ng-model="form.name")
-        .form-group
-          label(for="input_bank") Bank Name
-          input.form-control(type="text",id="input_bank",ng-model="form.bank")
-    .modal-footer
-      button.btn.btn-primary(ng-click="ok()") OK
-      button.btn.btn-warning(ng-click="cancel()") Cancel
+  .modal-header
+    h3.modal-title Create account
+  .modal-body
+    form
+      .form-group
+        label(for="input_name") Account Name
+        input.form-control(type="text",id="name",ng-model="form.name")
+      .form-group
+        label(for="input_bank") Bank Name
+        input.form-control(type="text",id="input_bank",ng-model="form.bank")
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+    button.btn.btn-warning(ng-click="cancel()") Cancel
 
 script(type="text/ng-template",id="editAccount.html")
-    .modal-header
-      h3.modal-title Edit element
-    .modal-body
-      form
-        .form-group
-          label(for="input_name") Account Name
-          input.form-control(type="text",id="name",ng-model="form.name")
-        .form-group
-          label(for="input_bank") Bank Name
-          input.form-control(type="text",id="input_bank",ng-model="form.bank")
-    .modal-footer
-      button.btn.btn-primary(ng-click="ok()") OK
-      button.btn.btn-warning(ng-click="cancel()") Cancel
+  .modal-header
+    h3.modal-title Edit element
+  .modal-body
+    form
+      .form-group
+        label(for="input_name") Account Name
+        input.form-control(type="text",id="name",ng-model="form.name")
+      .form-group
+        label(for="input_bank") Bank Name
+        input.form-control(type="text",id="input_bank",ng-model="form.bank")
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+    button.btn.btn-warning(ng-click="cancel()") Cancel

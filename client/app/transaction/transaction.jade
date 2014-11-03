@@ -1,2 +1,14 @@
-.col-md-12
-    | This is the transaction view.
+div(ng-include='"components/navbar/navbar.html"')
+.content.col-md-12(ng-app="cashApp")
+  .container(ng-controller="TransactionCtrl")
+    h1 Transactions for {{$stateParams}}
+    h2(ng-show="transactions.length == 0") No elements to show
+    table.table(ng-show="transactions.length > 0")
+      tr
+        th Date
+        th Description
+        th Amount
+      tr(ng-repeat="transaction in transactions")
+        td {{transaction.date}}
+        td {{transaction.description}}
+        td {{transaction.amount}}

@@ -54,10 +54,17 @@ exports.destroy = function(req, res) {
   });
 };
 
+exports.showByAccount = function(req, res) {
+  Transaction.find({account: req.params.account, bank: req.params.bank}, function (err, transaction) {
+    if(err) { return handleError(res, err); }
+    if(!transaction) { return res.send(404); }
+    return res.json(transaction);
+  });
+}
+
 exports.importNab = function(req, res) {
   var csv = require('csv');
   var through = require('through');
-  var moment = require('moment');
   var stream = require('stream');
   var busboy = require('connect-busboy');
 
@@ -68,7 +75,7 @@ exports.importNab = function(req, res) {
     if (record.length > 6) {
       return {
         amount: parseFloat(record[1]),
-        date: moment(record[0]),
+        date: new Date(record[0]),
         description: record[5],
         active: true
       };

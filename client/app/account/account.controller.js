@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cashApp')
-  .controller('AccountCtrl', ["$scope", "$http", "$modal", "$log", function ($scope, $http, $modal, $log) {
+  .controller('AccountCtrl', ["$scope", "$http", "$modal", "$upload",  function ($scope, $http, $modal, $upload) {
 
     // retrieve the accounts
     $http.get("/api/accounts")
@@ -18,7 +18,7 @@ angular.module('cashApp')
         resolve: { form: function() { return {}; } }
       });
       instance.result.then(function(data) {
-        $http.post("/api/accounts", data)
+        $http.post("/api/transactions/import", data)
         .success(function(data){
           $scope.accounts.push(data);
         })
@@ -56,10 +56,21 @@ angular.module('cashApp')
           form: function() { return account; }
         }
       });
-      instance.result.then(function(data) {
-        $http.put("/api/accounts/"+account._id, data)
-        .success(function(data){ })
-        .error(function() { console.log("failed to upload details"); });
+      instance.result.then(function(files) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          console.log(file);
+          $scope.upload = $upload.upload({
+            url: '/api/transaction/import',
+            data: {file: file},
+            file: file
+          })      
+          .progress(function(evt) {
+            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+          })
+        .success(function(data, status, headers, config) {
+        });
+      }
       });
     }
   }]);
@@ -73,20 +84,7 @@ angular.module('cashApp')
     };
 
     $scope.ok = function() {
-      for (var i = 0; i < $scope.files.length; i++) {
-        var file = $scope.files[i];
-        $scope.upload = $upload.upload({
-          url: '/api/transaction/import',
-          data: {file: file},
-          file: file
-        })      
-        .progress(function(evt) {
-          console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-        })
-        .success(function(data, status, headers, config) {
-          $modalInstance.close($scope.files);
-        });
-      }
+      $modalInstance.close($scope.files);
     };
 
     $scope.cancel = function () {
