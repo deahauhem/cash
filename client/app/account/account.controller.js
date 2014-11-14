@@ -56,21 +56,20 @@ angular.module('cashApp')
           form: function() { return account; }
         }
       });
-      instance.result.then(function(files) {
+      instance.result
+      .then(function(files) {
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
           console.log(file);
           $scope.upload = $upload.upload({
-            url: '/api/transaction/import',
+            url: '/api/transaction/import/' + encodeURIComponent(account.bank) + '/' + encodeURIComponent(account.name),
             data: {file: file},
+            headers: {
+              'Content-Type': 'text/plain'
+            },
             file: file
-          })      
-          .progress(function(evt) {
-            console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-          })
-        .success(function(data, status, headers, config) {
-        });
-      }
+          });      
+        }
       });
     }
   }]);

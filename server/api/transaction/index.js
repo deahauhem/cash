@@ -13,7 +13,7 @@ router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
-router.get('/byaccount/:account/:bank', controller.showByAccount);
-router.post('/import', importer.importNab);
+router.get('/byaccount/:bank/:account', controller.showByAccount);
+router.post('/import/:bank/:account', importer.import);
 
 module.exports = router;

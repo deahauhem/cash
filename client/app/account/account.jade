@@ -32,17 +32,6 @@ div(ng-include='"components/navbar/navbar.html"')
         i.fa.fa-plus
         |  Create a new account 
 
-script(type="text/ng-template",id="Upload.html")
-  .modal-header
-    h3.modal-title Upload transactions
-  .modal-body
-    h4 hello
-    form(flow-init)
-      input(type="file",ng-file-select="onFileSelect($files)") 
-  .modal-footer
-    button.btn.btn-primary(ng-click="ok()") OK
-    button.btn.btn-warning(ng-click="cancel()") Cancel
-
 script(type="text/ng-template",id="createAccount.html")
   .modal-header
     h3.modal-title Create account
@@ -72,3 +61,14 @@ script(type="text/ng-template",id="editAccount.html")
   .modal-footer
     button.btn.btn-primary(ng-click="ok()") OK
     button.btn.btn-warning(ng-click="cancel()") Cancel
+
+script(type="text/ng-template",id="Upload.html")
+  .modal-header
+    h3.modal-title Upload transactions
+  .modal-body
+    form(flow-init)
+      input(type="file",ng-file-select="onFileSelect($files)") 
+  .modal-footer
+    button.btn.btn-primary(ng-click="ok()") OK
+    button.btn.btn-warning(ng-click="cancel()") Cancel
+
