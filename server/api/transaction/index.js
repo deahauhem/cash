@@ -14,6 +14,6 @@ router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
 router.get('/byaccount/:bank/:account', controller.showByAccount);
-router.post('/import/:bank/:account', importer.import);
+importer(router);
 
 module.exports = router;
